@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="Create Module"
+        android:id="@+id/createModule"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/add_box"
+        />
+
+    <item android:title="Settings"
+        android:id="@+id/settings"
+        android:orderInCategory="200"
+        app:showAsAction="never"
+        />
+    <item android:title="Exit"
+        android:id="@+id/exit"
+        android:orderInCategory="500"
+        app:showAsAction="never"
+        />
+</menu>
