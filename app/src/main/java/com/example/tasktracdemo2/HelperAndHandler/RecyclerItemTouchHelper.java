@@ -54,6 +54,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
             AlertDialog dialog = builder.create();
             dialog.show();
         } else {
+            //swipe right to edit the task
             adapter.editItem(post);
         }
     }

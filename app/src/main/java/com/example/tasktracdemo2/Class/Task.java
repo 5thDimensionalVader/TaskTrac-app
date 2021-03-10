@@ -1,9 +1,19 @@
 package com.example.tasktracdemo2.Class;
 
+import java.util.Date;
+
 public class Task {
     //instance variables for the class
     private int id, status;
-    private String taskName;
+    private String taskName, date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public int getStatus() {
         return status;

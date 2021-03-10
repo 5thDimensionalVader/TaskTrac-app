@@ -1,20 +1,28 @@
 package com.example.tasktracdemo2.Class;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
 import com.example.tasktracdemo2.HelperAndHandler.DBHandler;
@@ -22,6 +30,8 @@ import com.example.tasktracdemo2.Interfaces.DialogCloseListener;
 import com.example.tasktracdemo2.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 //define global variables
@@ -29,6 +39,9 @@ import java.util.Objects;
     public static final String TAG = "ActionBottomDialog";
     private EditText edtTaskName;
     private Button btnCreateTask;
+    private ImageView btnDatePicker;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private String date;
 
     //define the db variable
     private DBHandler db;
@@ -52,11 +65,13 @@ import java.util.Objects;
             return view;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            edtTaskName = getView().findViewById(R.id.edtTaskName);
-            btnCreateTask = getView().findViewById(R.id.btnCreateTask);
+            edtTaskName = getView().findViewById(R.id.edtTaskName); //taskname
+            btnCreateTask = getView().findViewById(R.id.btnCreateTask); // button to create the task
+            btnDatePicker = getView().findViewById(R.id.date); // date picker
 
             db = new DBHandler(getActivity());
             db.openDatabase();
@@ -94,6 +109,33 @@ import java.util.Objects;
                 }
             });
 
+           btnDatePicker.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   //get the current date
+                   Calendar c = Calendar.getInstance();
+                   int year = c.get(Calendar.YEAR);     //get the year
+                   int month = c.get(Calendar.MONTH);   //get the month
+                   int day = c.get(Calendar.DAY_OF_MONTH); //get the day of the month
+
+                   //create the DatePickerDialog object
+                   DatePickerDialog dialog = new DatePickerDialog(
+                           getActivity(),
+                           mDateSetListener,
+                           year,month,day);
+                   dialog.show();
+               }
+           });
+
+           mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+               @Override
+               public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                    month = month + 1;
+                   Log.d(TAG, "setDate: "+day+"-"+month+"-"+year);
+                     date = day + "-" + month + "-"+ year;
+               }
+           };
+
             final boolean finalIsUpdate = isUpdate;
             btnCreateTask.setOnClickListener(v -> {
                 String text = edtTaskName.getText().toString();
@@ -103,6 +145,7 @@ import java.util.Objects;
                     Task task = new Task();
                     task.setTaskName(text);//set the task name
                     task.setStatus(0);//set the default status, which is unchecked
+                    task.setDate(date);
                     db.insertTask(task);
                 }
                 dismiss();
