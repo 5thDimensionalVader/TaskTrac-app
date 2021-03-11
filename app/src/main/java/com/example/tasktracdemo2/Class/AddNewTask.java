@@ -158,10 +158,10 @@ import java.util.Objects;
                                    Calendar c = Calendar.getInstance();
                                    //set the hour and minutes
                                    c.set(0,0,0,tHour,tMinutes);
-                                   time = (String) DateFormat.format("hh:mm AA", c);
+                                   time = (String) DateFormat.format("hh:mm", c);
                                    btnTimePicker.setImageResource(R.drawable.time_selected);
                                }
-                           },12, 0, false
+                           },12, 0, true
                    );
                    //show the time dialog
                    dialog.show();
