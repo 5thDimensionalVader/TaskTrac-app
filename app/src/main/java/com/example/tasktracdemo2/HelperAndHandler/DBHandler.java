@@ -17,15 +17,16 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     //define global variables
-    private static final int VERSION = 2; //version of the database
+    private static final int VERSION = 3; //version of the database
     private static final String NAME = "taskTracDB"; //name of the database
     private static final String TASKTRAC_TABLE = "todo"; //name of the table
     private static final String ID = "id"; //table columnName
     private static final String TASK = "taskName"; //table taskName
     private static final String STATUS = "status"; // table status
     private static final String DATE = "date"; // table date
+    private static final String TIME = "time"; //table time
     private static final String QUERY = "CREATE TABLE " + TASKTRAC_TABLE + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TASK + " TEXT, "
-            + STATUS + " INTEGER, " + DATE + " TEXT)"; //query to create the new table
+            + STATUS + " INTEGER, " + DATE + " TEXT, " + TIME +" TEXT)"; //query to create the new table
     private SQLiteDatabase db; // reference of the SQLite DB used.
 
     public DBHandler(Context context){super(context, NAME, null, VERSION);}
@@ -50,6 +51,7 @@ public class DBHandler extends SQLiteOpenHelper {
         conVal.put(TASK, task.getTaskName()); //get the name of the task.
         conVal.put(STATUS, 0); //get the status of the task.
         conVal.put(DATE, task.getDate());//get the due date of the task.
+        conVal.put(TIME, task.getTime());//get the reminder time of the task.
         db.insert(TASKTRAC_TABLE, null, conVal); //insert data into the table in db
     }
     //create a method to get all task from db, save to List to display in the RecyclerView
@@ -66,7 +68,8 @@ public class DBHandler extends SQLiteOpenHelper {
                         task.setId(cur.getInt(cur.getColumnIndex(ID)));
                         task.setTaskName(cur.getString(cur.getColumnIndex(TASK)));
                         task.setStatus(cur.getInt(cur.getColumnIndex(STATUS)));
-                        task.setDate(cur.getString(cur.getColumnIndex(DATE))); //***
+                        task.setDate(cur.getString(cur.getColumnIndex(DATE)));
+                        task.setTime(cur.getString(cur.getColumnIndex(TIME)));
                         taskList.add(task);
                     }
                     while(cur.moveToNext());
@@ -99,6 +102,13 @@ public class DBHandler extends SQLiteOpenHelper {
     public void updateDate(int id, String date){
         ContentValues conVal = new ContentValues();
         conVal.put(DATE, date);
+        db.update(TASKTRAC_TABLE, conVal, ID + "=?", new String[] {String.valueOf(id)});
+    }
+
+    //create method to update the task reminder time
+    public void updateTime(int id, String time){
+        ContentValues conVal = new ContentValues();
+        conVal.put(DATE, time);
         db.update(TASKTRAC_TABLE, conVal, ID + "=?", new String[] {String.valueOf(id)});
     }
 

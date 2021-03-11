@@ -2,6 +2,7 @@ package com.example.tasktracdemo2.Class;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -9,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,8 +43,11 @@ import java.util.Objects;
     private EditText edtTaskName;
     private Button btnCreateTask;
     private ImageView btnDatePicker;
+    private ImageView btnTimePicker;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private String date;
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener;
+    private String date, time;
+    int tHour, tMinutes;
 
     //define the db variable
     private DBHandler db;
@@ -72,6 +78,7 @@ import java.util.Objects;
             edtTaskName = getView().findViewById(R.id.edtTaskName); //taskname
             btnCreateTask = getView().findViewById(R.id.btnCreateTask); // button to create the task
             btnDatePicker = getView().findViewById(R.id.date); // date picker
+            btnTimePicker = getView().findViewById(R.id.time); // time picker
 
             db = new DBHandler(getActivity());
             db.openDatabase();
@@ -109,6 +116,7 @@ import java.util.Objects;
                 }
             });
 
+            //button to select the date
            btnDatePicker.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
@@ -121,21 +129,44 @@ import java.util.Objects;
                    //create the DatePickerDialog object
                    DatePickerDialog dialog = new DatePickerDialog(
                            getActivity(),
-                           mDateSetListener,
+                           mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                               @Override
+                               public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                   month = month + 1;
+                                   Log.d(TAG, "setDate: "+day+"-"+month+"-"+year);
+                                   date = day + "/" + month + "/"+ year; // store the selected date
+                                   btnDatePicker.setImageResource(R.drawable.calendar_selected);
+                               }
+                           },
                            year,month,day);
                    dialog.show();
                }
            });
-
-           mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            //button to select the time
+           btnTimePicker.setOnClickListener(new View.OnClickListener() {
                @Override
-               public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    month = month + 1;
-                   Log.d(TAG, "setDate: "+day+"-"+month+"-"+year);
-                     date = day + "-" + month + "-"+ year;
-                     btnDatePicker.setImageResource(R.drawable.calendar_selected);
+               public void onClick(View view) {
+                    //initialize time picker dialog
+                   TimePickerDialog dialog = new TimePickerDialog(
+                           getActivity(),
+                           mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+                               @Override
+                               public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                                   tHour = hourOfDay;
+                                   tMinutes = minutes;
+                                   //initialize the calendar
+                                   Calendar c = Calendar.getInstance();
+                                   //set the hour and minutes
+                                   c.set(0,0,0,tHour,tMinutes);
+                                   time = (String) DateFormat.format("hh:mm AA", c);
+                                   btnTimePicker.setImageResource(R.drawable.time_selected);
+                               }
+                           },12, 0, false
+                   );
+                   //show the time dialog
+                   dialog.show();
                }
-           };
+           });
 
             final boolean finalIsUpdate = isUpdate;
             btnCreateTask.setOnClickListener(v -> {
@@ -146,8 +177,9 @@ import java.util.Objects;
                     Task task = new Task();
                     task.setTaskName(text);//set the task name
                     task.setStatus(0);//set the default status, which is unchecked
-                    task.setDate(date);
-                    db.insertTask(task);
+                    task.setDate(date);//set the due date
+                    task.setTime(time);//set the reminder time
+                    db.insertTask(task);//insert the task into db
                 }
                 dismiss();
             });

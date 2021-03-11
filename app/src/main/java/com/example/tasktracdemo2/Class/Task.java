@@ -5,7 +5,15 @@ import java.util.Date;
 public class Task {
     //instance variables for the class
     private int id, status;
-    private String taskName, date;
+    private String taskName, date, time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getDate() {
         return date;

@@ -46,7 +46,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int post){
         db.openDatabase();
         final Task item = taskList.get(post);
-        holder.txt_task.setText(item.getDate());
+        holder.txt_date.setText(item.getDate());
+        holder.txt_time.setText(item.getTime());
         holder.ch_task.setText(item.getTaskName());
         holder.ch_task.setChecked(toBool(item.getStatus()));
         holder.ch_task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -88,6 +89,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         bundle.putInt("id",item.getId());
         bundle.putString("task", item.getTaskName());
         bundle.putString("date", item.getDate());
+        bundle.putString("time", item.getTime());
         AddNewTask fragment = new AddNewTask();
         fragment.setArguments(bundle);
         fragment.show(baseActivity.getSupportFragmentManager(), AddNewTask.TAG);
@@ -104,13 +106,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     //define the ViewHolder class
     public static class ViewHolder extends RecyclerView.ViewHolder{
         CheckBox ch_task;
-        TextView txt_task;
+        TextView txt_date;
+        TextView txt_time;
 
         //create a constructor for the class
         ViewHolder(View v){
             super(v);
             ch_task = v.findViewById(R.id.chBox);
-            txt_task = v.findViewById(R.id.dueDate);
+            txt_date = v.findViewById(R.id.dueDate);
+            txt_time = v.findViewById(R.id.dueTime);
         }
     }
 }
