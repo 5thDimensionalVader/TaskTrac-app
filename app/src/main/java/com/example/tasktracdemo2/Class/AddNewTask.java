@@ -133,6 +133,7 @@ import java.util.Objects;
                     month = month + 1;
                    Log.d(TAG, "setDate: "+day+"-"+month+"-"+year);
                      date = day + "-" + month + "-"+ year;
+                     btnDatePicker.setImageResource(R.drawable.calendar_selected);
                }
            };
 
