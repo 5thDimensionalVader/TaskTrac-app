@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,14 +49,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         final Task item = taskList.get(post);
         holder.txt_date.setText(item.getDate());
         holder.txt_time.setText(item.getTime());
-        holder.ch_task.setText(item.getTaskName());
+        holder.txt_task_name.setText(item.getTaskName());
         holder.ch_task.setChecked(toBool(item.getStatus()));
         holder.ch_task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+                    holder.txt_task_name.setPaintFlags(holder.txt_task_name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    holder.txt_task_name.setTextColor(0xff888888);
                     db.updateTaskStatus(item.getId(), 1);
                 } else {
+                    holder.txt_task_name.setPaintFlags(holder.txt_task_name.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                    holder.txt_task_name.setTextColor(0xff000000);
                     db.updateTaskStatus(item.getId(), 0);
                 }
             }
@@ -108,13 +113,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         CheckBox ch_task;
         TextView txt_date;
         TextView txt_time;
+        TextView txt_task_name;
 
         //create a constructor for the class
         ViewHolder(View v){
             super(v);
             ch_task = v.findViewById(R.id.chBox);
+
             txt_date = v.findViewById(R.id.dueDate);
             txt_time = v.findViewById(R.id.dueTime);
+            txt_task_name = v.findViewById(R.id.txt_task_name);
         }
     }
 }

@@ -11,16 +11,28 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="2dp">
         <CheckBox
             android:id="@+id/chBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tool:text="Lorem ipsum dolor sit amet"
-            android:textSize="15dp"
             android:paddingStart="15dp"
             android:buttonTint="@color/purple_200"
             />
+        <TextView
+            android:id="@+id/txt_task_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/chBox"
+            android:layout_alignTop="@+id/chBox"
+            android:layout_alignBottom="@+id/chBox"
+            android:gravity="center_vertical"
+            tool:text="TASK NAME EXAMPLE"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            />
+
         <TextView
             android:id="@+id/dueDate"
             android:layout_width="wrap_content"
@@ -30,7 +42,7 @@
             android:textColor="@color/red"
             tool:text="xx-xx-xxxx"
             android:gravity="center"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="50dp"
             />
 
         <TextView
@@ -50,8 +62,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:src="@drawable/star_border"
-            android:layout_marginTop="15.5dp"
             android:layout_marginRight="10.5dp"
             />
     </RelativeLayout>

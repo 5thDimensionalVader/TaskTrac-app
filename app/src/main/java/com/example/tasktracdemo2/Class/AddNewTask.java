@@ -139,7 +139,6 @@ import static androidx.core.content.ContextCompat.getSystemService;
                                @Override
                                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                                    month = month + 1;
-                                   Log.d(TAG, "setDate: "+day+"-"+month+"-"+year);
                                    date = day + "/" + month + "/"+ year; // store the selected date
                                    btnDatePicker.setImageResource(R.drawable.calendar_selected);
                                }
