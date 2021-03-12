@@ -106,6 +106,7 @@ public class BaseActivity extends AppCompatActivity implements DialogCloseListen
 
             case R.id.createModule:
                 //create a new list
+                AddNewTask.newInstance().show(getSupportFragmentManager(), AddNewTask.TAG);
                 Log.i("log msg", "creating new list");
                 break;
             case R.id.settings:

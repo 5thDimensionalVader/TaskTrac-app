@@ -1,9 +1,13 @@
 package com.example.tasktracdemo2.Class;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -28,6 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
+import com.example.tasktracdemo2.HelperAndHandler.AlertReceiverHandler;
 import com.example.tasktracdemo2.HelperAndHandler.DBHandler;
 import com.example.tasktracdemo2.Interfaces.DialogCloseListener;
 import com.example.tasktracdemo2.R;
@@ -36,6 +41,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 //define global variables
     public class AddNewTask extends BottomSheetDialogFragment {
@@ -47,7 +54,6 @@ import java.util.Objects;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
     private String date, time;
-    int tHour, tMinutes;
 
     //define the db variable
     private DBHandler db;
@@ -152,20 +158,32 @@ import java.util.Objects;
                            mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
                                @Override
                                public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                                   tHour = hourOfDay;
-                                   tMinutes = minutes;
                                    //initialize the calendar
                                    Calendar c = Calendar.getInstance();
                                    //set the hour and minutes
-                                   c.set(0,0,0,tHour,tMinutes);
-                                   time = (String) DateFormat.format("hh:mm", c);
+                                   c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                   c.set(Calendar.MINUTE, minutes);
+                                   c.set(Calendar.SECOND, 0);
+                                    startAlarm(c);
+                                   time = (String) DateFormat.format("hh:mm aa", c);
                                    btnTimePicker.setImageResource(R.drawable.time_selected);
                                }
-                           },12, 0, true
+                           },12, 0, false
                    );
                    //show the time dialog
                    dialog.show();
                }
+               private void startAlarm(Calendar c){
+                   //set up alarm manager
+                   AlarmManager alarmManager = (AlarmManager)getContext().getSystemService(Context.ALARM_SERVICE);
+                   Intent intent = new Intent(getActivity(), AlertReceiverHandler.class);
+                   PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, 0);
+                   alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+                   if (c.before(Calendar.getInstance())) {
+                       c.add(Calendar.DATE, 1);
+                   }
+               }
+
            });
 
             final boolean finalIsUpdate = isUpdate;
