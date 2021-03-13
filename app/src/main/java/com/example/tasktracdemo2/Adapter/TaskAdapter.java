@@ -1,12 +1,8 @@
 package com.example.tasktracdemo2.Adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +12,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tasktracdemo2.BaseActivity;
+import com.example.tasktracdemo2.Activity.BaseActivity;
 import com.example.tasktracdemo2.Class.AddNewTask;
 import com.example.tasktracdemo2.Class.Task;
 import com.example.tasktracdemo2.HelperAndHandler.DBHandler;
 import com.example.tasktracdemo2.R;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;

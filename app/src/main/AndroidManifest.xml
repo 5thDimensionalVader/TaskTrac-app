@@ -9,8 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskTracDemo2">
-        <activity android:name=".BaseActivity"/>
-        <activity android:name=".SplashActivity">
+        <activity android:name=".Activity.TestActivity" />
+        <activity android:name=".Activity.OthersActivity" />
+        <activity android:name=".Activity.CourseworkActivity" />
+        <activity android:name=".Activity.ExamsActivity" />
+        <activity android:name=".Activity.CategoryActivity" />
+        <activity android:name=".Activity.BaseActivity" />
+        <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".HelperAndHandler.AlertReceiverHandler"/>
+        <receiver android:name=".HelperAndHandler.AlertReceiverHandler" />
     </application>
 
 </manifest>

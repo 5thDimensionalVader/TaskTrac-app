@@ -1,4 +1,4 @@
-package com.example.tasktracdemo2;
+package com.example.tasktracdemo2.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +27,7 @@ import com.example.tasktracdemo2.Class.Task;
 import com.example.tasktracdemo2.HelperAndHandler.DBHandler;
 import com.example.tasktracdemo2.HelperAndHandler.RecyclerItemTouchHelper;
 import com.example.tasktracdemo2.Interfaces.DialogCloseListener;
+import com.example.tasktracdemo2.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
