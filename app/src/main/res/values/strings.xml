@@ -2,6 +2,10 @@
     <string name="app_name">TaskTrac</string>
     <string name="new_task">New Task</string>
     <string name="save">Create Task</string>
-    <string name="tasks">Tasks</string>
+    <string name="tasks_all">All Tasks</string>
+    <string name="tasks_exams">Exams</string>
+    <string name="tasks_coursework">Coursework</string>
+    <string name="tasks_test">Test</string>
+    <string name="tasks_others">Others</string>
     <string name="categories">Welcome to TaskTrac!</string>
 </resources>

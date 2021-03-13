@@ -25,19 +25,18 @@ import com.example.tasktracdemo2.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
+public class ExamsTaskAdapter extends RecyclerView.Adapter<ExamsTaskAdapter.ViewHolder> {
     //variables to be used in the class
     private List<Task> taskList = new ArrayList<>();
-    private BaseActivity baseActivity;
+    private ExamsActivity examsActivity;
     private DBHandler db;
 
-    //create a constructor for every activity
-    //create a constructor for the baseActivity
-    public TaskAdapter(DBHandler db, BaseActivity activity){
-        this.db = db;
-        this.baseActivity = activity;
-    }
 
+    //create a constructor for the examsActivity
+    public ExamsTaskAdapter(DBHandler db, ExamsActivity activity){
+        this.db = db;
+        this.examsActivity = activity;
+    }
     //onCreateViewHolder method
     public ViewHolder onCreateViewHolder(ViewGroup parent, int ViewType){
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_task_layout,parent,false);
@@ -76,8 +75,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return x!=0;
     }
 
-    public Context getContextBase() {
-        return baseActivity;
+    public Context getContextExams() {
+        return examsActivity;
     }
 
     //setTasks method to help set the task in BaseActivity
@@ -97,7 +96,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         bundle.putString("time", item.getTime());
         AddNewTask fragment = new AddNewTask();
         fragment.setArguments(bundle);
-        fragment.show(baseActivity.getSupportFragmentManager(), AddNewTask.TAG);
+        fragment.show(examsActivity.getSupportFragmentManager(), AddNewTask.TAG);
     }
 
     //method to delete items from the array list

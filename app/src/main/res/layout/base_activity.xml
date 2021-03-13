@@ -16,7 +16,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
         android:textSize="32sp"
-        android:text="@string/tasks" />
+        android:text="@string/tasks_all" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taskRecyclerView"

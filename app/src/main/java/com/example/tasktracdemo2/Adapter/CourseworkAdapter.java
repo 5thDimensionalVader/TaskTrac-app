@@ -10,13 +10,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tasktracdemo2.Activity.BaseActivity;
 import com.example.tasktracdemo2.Activity.CourseworkActivity;
 import com.example.tasktracdemo2.Activity.ExamsActivity;
-import com.example.tasktracdemo2.Activity.OthersActivity;
-import com.example.tasktracdemo2.Activity.TestActivity;
 import com.example.tasktracdemo2.Class.AddNewTask;
 import com.example.tasktracdemo2.Class.Task;
 import com.example.tasktracdemo2.HelperAndHandler.DBHandler;
@@ -25,26 +23,27 @@ import com.example.tasktracdemo2.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
+public class CourseworkAdapter extends RecyclerView.Adapter<CourseworkAdapter.ViewHolder> {
     //variables to be used in the class
     private List<Task> taskList = new ArrayList<>();
-    private BaseActivity baseActivity;
+    private CourseworkActivity courseworkActivity;
     private DBHandler db;
 
-    //create a constructor for every activity
-    //create a constructor for the baseActivity
-    public TaskAdapter(DBHandler db, BaseActivity activity){
-        this.db = db;
-        this.baseActivity = activity;
-    }
 
+    //create a constructor for the examsActivity
+    public CourseworkAdapter(DBHandler db, CourseworkActivity activity){
+        this.db = db;
+        this.courseworkActivity = activity;
+    }
     //onCreateViewHolder method
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int ViewType){
+    public CourseworkAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int ViewType){
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_task_layout,parent,false);
         return new ViewHolder(itemView);
     }
+
+
     //onBindViewHolder method
-    public void onBindViewHolder(ViewHolder holder, int post){
+    public void onBindViewHolder(CourseworkAdapter.ViewHolder holder, int post){
         db.openDatabase();
         final Task item = taskList.get(post);
         holder.txt_date.setText(item.getDate());
@@ -76,8 +75,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return x!=0;
     }
 
-    public Context getContextBase() {
-        return baseActivity;
+    public Context getContextCoursework() {
+        return courseworkActivity;
     }
 
     //setTasks method to help set the task in BaseActivity
@@ -97,7 +96,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         bundle.putString("time", item.getTime());
         AddNewTask fragment = new AddNewTask();
         fragment.setArguments(bundle);
-        fragment.show(baseActivity.getSupportFragmentManager(), AddNewTask.TAG);
+        fragment.show(courseworkActivity.getSupportFragmentManager(), AddNewTask.TAG);
     }
 
     //method to delete items from the array list

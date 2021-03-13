@@ -13,15 +13,16 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tasktracdemo2.Adapter.ExamsTaskAdapter;
 import com.example.tasktracdemo2.Adapter.TaskAdapter;
 import com.example.tasktracdemo2.R;
 
-public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
+public class RecyclerItemTouchHelperExams extends ItemTouchHelper.SimpleCallback {
     //define the global variables
-    private TaskAdapter adapter;
+    private ExamsTaskAdapter adapter;
 
     //constructor for the class
-    public RecyclerItemTouchHelper (TaskAdapter adapter){
+    public RecyclerItemTouchHelperExams (ExamsTaskAdapter adapter){
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
     }
@@ -36,7 +37,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         final int post = viewHolder.getAdapterPosition();
         if (direction == ItemTouchHelper.LEFT){
             //swipe left to delete the task
-            AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContextBase()); // alert prompt
+            AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContextExams()); // alert prompt
             builder.setTitle("Delete Task");
             builder.setMessage("Are you sure you want to delete this task?");
             builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -72,10 +73,10 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         int backgroundCornerOffset = 20;
 
         if(dX>0){
-            icon = ContextCompat.getDrawable(adapter.getContextBase(), R.drawable.swipe_edit);
-            background = new ColorDrawable(ContextCompat.getColor(adapter.getContextBase(), R.color.purple_200));
+            icon = ContextCompat.getDrawable(adapter.getContextExams(), R.drawable.swipe_edit);
+            background = new ColorDrawable(ContextCompat.getColor(adapter.getContextExams(), R.color.purple_200));
         } else {
-            icon = ContextCompat.getDrawable(adapter.getContextBase(), R.drawable.swipe_delete);
+            icon = ContextCompat.getDrawable(adapter.getContextExams(), R.drawable.swipe_delete);
             background = new ColorDrawable(Color.RED);
         }
 
@@ -93,7 +94,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
             background.setBounds(itemView.getLeft(), itemView.getTop(),
                     itemView.getLeft() + ((int) dX) + backgroundCornerOffset, itemView.getBottom());
         } else if (dX<0){
-                //Swiping to the left
+            //Swiping to the left
             int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
             int iconRight = itemView.getRight() - iconMargin;
             icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);

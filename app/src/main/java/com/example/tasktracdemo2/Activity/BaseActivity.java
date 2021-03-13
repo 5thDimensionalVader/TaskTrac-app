@@ -43,7 +43,7 @@ public class BaseActivity extends AppCompatActivity implements DialogCloseListen
     //global variables
     private RecyclerView taskRView; //global variable for the recycler view
     private TaskAdapter task_adapter;
-    public static List<Task> taskList; // list to save the Task object and it is made public
+    public static List<Task> allTaskList; // list to save the Task object and it is made public
     private FloatingActionButton fabBtn;
     private DBHandler db;
 
@@ -61,7 +61,7 @@ public class BaseActivity extends AppCompatActivity implements DialogCloseListen
         db = new DBHandler(this);
         db.openDatabase();
 
-        taskList = new ArrayList<>();
+        allTaskList = new ArrayList<>();
 
         //Instantiate the RecycleView variable created
         taskRView = findViewById(R.id.taskRecyclerView);
@@ -72,22 +72,23 @@ public class BaseActivity extends AppCompatActivity implements DialogCloseListen
         task_adapter = new TaskAdapter(db, this);
         taskRView.setAdapter(task_adapter);
 
-        taskList = db.getAllTask();
-        Collections.reverse(taskList);
-        task_adapter.setTasks(taskList);
+        allTaskList = db.getAllTask();
+        Collections.reverse(allTaskList);
+        task_adapter.setTasks(allTaskList);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(task_adapter));
+        itemTouchHelper.attachToRecyclerView(taskRView);
 
         //FloatingActionButton
         fabBtn = findViewById(R.id.fabBtn);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(task_adapter));
-        itemTouchHelper.attachToRecyclerView(taskRView);
+
         fabBtn.setOnClickListener(v -> AddNewTask.newInstance().show(getSupportFragmentManager(), AddNewTask.TAG));
     }
 
     @Override
     public void handleDialogClose(DialogInterface dialog) {
-        taskList = db.getAllTask();
-        Collections.reverse(taskList); //reverse the task list
-        task_adapter.setTasks(taskList);
+        allTaskList = db.getAllTask();
+        Collections.reverse(allTaskList); //reverse the task list
+        task_adapter.setTasks(allTaskList);
         task_adapter.notifyDataSetChanged();
     }
 
@@ -105,19 +106,10 @@ public class BaseActivity extends AppCompatActivity implements DialogCloseListen
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
 
-            case R.id.createModule:
+            case R.id.createTask:
                 //create a new list
                 AddNewTask.newInstance().show(getSupportFragmentManager(), AddNewTask.TAG);
-                Log.i("log msg", "creating new list");
-                break;
-            case R.id.settings:
-                //enter settings activity
-                Log.i("log msg", "settings clicked");
-                break;
-            case R.id.exit:
-                Log.i("status", "Exiting app ... ");
-                finish();
-                System.exit(0);
+                Log.i("log msg", "creating new task");
                 break;
         }
         return super.onOptionsItemSelected(item);
