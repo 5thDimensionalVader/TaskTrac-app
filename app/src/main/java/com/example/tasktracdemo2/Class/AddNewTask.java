@@ -177,9 +177,11 @@ import static androidx.core.content.ContextCompat.getSystemService;
                    AlarmManager alarmManager = (AlarmManager)getContext().getSystemService(Context.ALARM_SERVICE);
                    Intent intent = new Intent(getActivity(), AlertReceiverHandler.class);
                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, 0);
-                   alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+
                    if (c.before(Calendar.getInstance())) {
                        c.add(Calendar.DATE, 1);
+                   } else {
+                       alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
                    }
                }
 
